@@ -4,13 +4,12 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <memory>
-//#include "thread_6669.h"
+#include <fstream>
 
 #include "serv_80.h"
 
 void * write_to_file(void* clnt_sock) {
-    std::shared_ptr<int> val = *std::unique_ptr<std::shared_ptr<int>>(static_cast<std::shared_ptr<int>*>(clnt_sock));
-    int sock_num = *(val.get());
+    int sock_num = *((int*)clnt_sock);
 
     char clnt_msg[5132] = {0};
     while (true) {
@@ -18,10 +17,16 @@ void * write_to_file(void* clnt_sock) {
         if (0 == bytes_read) break; // std::cout << "Client disconnected" << std::endl;
         if (-1 == bytes_read) break; // std::cout << "recv() error" << std::endl;
 
-//        std::cout << pthread_self() << "/" << sock_num << std::endl;
+        std::cout << pthread_self() << "/" << sock_num << std::endl;
         std::cout << clnt_msg << std::endl;
         // пишем в файл и чистим буфер
+
+        std::ofstream logfile("/home/rasa/access.log", std::ios_base::app);
+        logfile << clnt_msg << std::endl;
+        logfile.close();
+
         memset(clnt_msg, 0, 5132);
+
     }
     return nullptr;
 }
@@ -52,9 +57,9 @@ bool server_6669::run() {
         std::cout << "New client connected" << std::endl;
 //        thread6669->Wait();
  */
-        std::shared_ptr<int> p_socknum = std::make_shared<int>(clnt_sock);
-        if(pthread_create(&thread_id, nullptr, &write_to_file,
-                       static_cast<void*>(new std::shared_ptr<int>(p_socknum))) < 0){
+        const std::shared_ptr parameters = std::make_shared<int>(clnt_sock);
+        if(pthread_create(&thread_id, nullptr, &write_to_file, parameters.get()) < 0)
+        {
             // error
         };
     }

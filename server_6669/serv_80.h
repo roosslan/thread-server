@@ -1,8 +1,12 @@
+
+
 #ifndef SERV_80_H
 #define SERV_80_H
 
 #include <string>
 #include <netinet/in.h>
+
+
 
 class server_6669 {
     struct sockaddr_in clnt_addr, locl_addr;

@@ -22,7 +22,7 @@ bool clnt_6669::connect_to_server() {
     }
     else return false;
 
-    for (int i = 1; i < connect_duration; ++i) {
+    for (int i = 0; i < connect_duration; ++i) {
         std::cout <<  clntName.c_str() << std::endl;
         send(locl_sockl, clntName.c_str(), sizeof(clntName.c_str()), 0);
         std::this_thread::sleep_for(std::chrono::seconds(1)); // Sleep_1000 on Windows

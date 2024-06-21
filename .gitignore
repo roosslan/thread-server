@@ -17,6 +17,8 @@
 mono_crash.*
 
 # Build results
+server_6669/.idea/
+server_6669/cmake-build-debug/
 clnt80/.idea/
 clnt80/cmake-build-debug/
 [Dd]ebug/

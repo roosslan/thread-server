@@ -1,5 +1,8 @@
 #include <iostream>
 
+pthread_mutex_t mu = PTHREAD_MUTEX_INITIALIZER;
+pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
+
 #include "serv_80.h"
 
 int main(int argc, char *argv[]){
